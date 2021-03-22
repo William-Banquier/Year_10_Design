@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-database.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+    <h1 class="title">Message System</h1>
+
+    <div class="sidebar">
+        <button id = "buttonForSignIn" type="button" class="btn btn-large" onclick = "googleSignin()"> Sign In With Google</button>
+        <br><br>
+        <div class = "input-field col s12  l6">
+
+        </div>
+    </div>
+
+    <div id ="joinRoom_Form">
+        <br><br><br>
+        <label id = "joinRoom_Form-Label" for="joinRoom_Form-Input">Write Your Room Key Below: </label>
+        <br>
+        <input id = "joinRoom_Form-Input" type="text" id="Private Room Key" name="Private Room Key" class></input>
+        <br><br><br>
+        <button id = "joinRoom_Form-Join_Button" type="button" class="btn btn-large" onclick = "roomID = joinRoom(document.getElementById('joinRoom_Form-Input').value)"> Join/Create</button>
+    </div>
+
+
+    <div id = "messagePage">
+        <div id = "messagePage_Input-Form">
+            <label id = "messagePage_Input-Label" for="messagePage_Input-Input">Write Your Message Below: </label>
+            <br>
+            <input id = "messagePage_Input-Input" type="text" name="messagePage_Input-Input" class></input>
+            <br>
+            <button id = "messagePage_Input-Post_Button" type="button" class="btn btn-large" onclick = "sendMessage(roomID)"> Send</button>
+        </div>
+        <div id = "text_area">
+        </div>
+    </div>
+
+
+
+
+
+    <script src= "script.js"></script>
+</body>
+</html>

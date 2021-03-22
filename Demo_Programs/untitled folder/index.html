@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-database.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="script.js"></script>
+
+</head>
+<body>
+    <button id = "somthing" onclick = "googleSignin()" class = "btn">Google Signin</button>
+    <button onclick = "googleSignout()" class = "btn">Google Signout</button>
+
+    <br><br>
+
+    <label for="roomInput">Write Room ID: </label>
+    <input type="text" id="roomInput" name="roomInput">
+    <button onclick = "openRoom(roomInput.value())" class = "btn"> Enter Room </button>
+
+    <div id = "Room">
+        
+    </div>
+</body>
+</html>

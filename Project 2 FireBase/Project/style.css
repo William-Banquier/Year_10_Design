@@ -1,0 +1,58 @@
+.title{
+    padding-left: 20px;
+}
+
+.sidebar{
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    width: 250px;
+    height: 120px;
+    /* border: 3px solid green; */
+}
+#sidebar_items{
+    position: absolute;
+    right: -10px;
+}
+
+#joinRoom_Form-Input{
+    
+}
+#sign_in_section{
+    z-index: 2;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+#buttonForSignIn{
+    position: absolute;
+    right:-10px;
+}
+
+#joinRoom_Form{
+    position: absolute;
+    height: 120px;
+    right: 40%;
+    width: 30%;
+}
+
+#messagePage_Input-Form{
+    position: absolute;
+    height: 120px;
+    right: 40%;
+    width: 30%;
+    top: 200px;
+}
+
+#text_area{
+    position: absolute;
+    right: 25%;
+    width: 50%;
+    top: 400px;
+    height: 120px;
+}
+
+#messagePage{
+    display: none;
+}

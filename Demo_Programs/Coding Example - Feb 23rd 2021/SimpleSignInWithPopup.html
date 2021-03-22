@@ -1,0 +1,363 @@
+<html>
+    <head>
+        <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-database.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+       <style>
+        #postSection {
+            display: none;
+            z-index: 2; 
+            cursor: pointer; 
+
+        }
+       </style>
+        <!-- Add SDKs for Firebase products that you want to use 
+          https://firebase.google.com/docs/web/setup#available-libraries -->
+        <title>Firebase</title>
+    </head>
+    <body>
+
+        <div class="pin-top teal center">
+
+        </div>
+
+
+
+
+
+
+
+        <div class="container" id = "page-container">
+
+            <div id = "nav" style = "display:flex; position: relative;">
+                <h1 style "text-align: center;">Post Test</h1>
+
+                <button style = "position: absolute; right: -35; top: 2;" onclick = "googleSignin()" class = "btn">Google Signin</button>
+                <button style = "position: absolute; right: -210; top:2;" onclick = "googleSignout()" class = "btn">Google Signout</button>
+                <button style = "position: absolute; right: 140; top:2;" onclick = "turnOnPostSection()" class = "btn">Post</button>
+            </div>
+            <br></br>
+            <div id = "information">
+                <img src="white.png" alt="pfp" id = "pfp" class="circle responsive-img">
+            
+
+            
+
+                <div id = "user_info" class="">
+                    <span class="blue-text text-darken-2">
+                        <p id = "name" class = "black-text"></p>
+                        <p id = "email" class = "black-text"></p>
+                    </span>
+                </div>
+                <div id = "userSettings" style = "visibility:hidden">
+                <label for="username">Change Username: </label>
+                <input type="text" id="username" name="username">
+                <button onclick = "changeUserName(firebase.auth().currentUser)" id = "changeUserNameButton" class = "btn">Confirm</button>
+
+                <button onclick = "pushToDatabase(firebase.auth().currentUser)" id = "pushToDatabase" class = "btn">Push The Information To The Database</button>
+
+                <button onclick = "turnOffProfileSection()" id = "post" class = "btn">Hide</button>
+            </div>
+            </div>
+            
+            <div id="postSection">
+                <h3>New Post</h3>
+                <label for="postTitleboxLabel">Write Your Title Here: </label>
+                <input type="text" id="postTitlebox" name="postTextbox">
+                <label for="postTextboxLabel">Write Your Post Here: </label>
+                <input type="text" id="postTextbox" name="postTextbox">
+                <button onclick = "post()" id = "post" class = "btn">Post</button>
+                <button onclick = "turnOffPostSection()" id = "post" class = "btn">Hide</button>
+            </div>
+            <h3>Posts</h3>
+            <div id = "readPostSection">
+                
+            </div>
+
+        </div>
+
+        <script type="text/javascript">
+
+            var provider = new firebase.auth.GoogleAuthProvider();
+
+            var config = 
+            {
+                apiKey: "AIzaSyAKW3G4dMbBiqXTXLoJDV4Xg_Y9lR_7Ku0",
+                authDomain: "class-demo-y102020-21.firebaseapp.com",
+                databaseURL: "https://class-demo-y102020-21-default-rtdb.firebaseio.com",
+                projectId: "class-demo-y102020-21",
+                storageBucket: "class-demo-y102020-21.appspot.com",
+                messagingSenderId: "976136429898",
+                appId: "1:976136429898:web:02cfe54aeca037775b61b3",
+                measurementId: "G-QQ5QJEXFNN"
+            };
+
+            firebase.initializeApp(config);
+
+            function googleSignin() 
+            {
+                firebase.auth()
+                .signInWithPopup(provider)
+                .then(function(result) 
+                {
+                    var token = result.credential.accessToken;
+                    var user = result.user;
+                    var name = result.user.displayName;
+                    var email = result.user.email;
+                    var emailVerified = user.emailVerified;
+
+                    document.getElementById('userSettings').style.visibility = 'visible';
+
+                    document.getElementById('pfp').src = result.user.photoURL;
+                    document.getElementById('name').innerText = name;
+                    document.getElementById('email').innerText = email; 
+
+                    
+                    console.log(emailVerified);
+                    console.log(result.user.photoURL);
+                    console.log(token);
+                    console.log(user);
+                    console.log(name);
+                    console.log(email);
+                })
+                .catch(function(error) 
+                {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                        
+                    console.log(error.code)
+                    console.log(error.message)
+                });
+            }
+
+            function googleSignout() 
+            {
+                firebase.auth().signOut()
+                .then(function() 
+                {
+                    console.log('Signout Succesfull');
+                    hideInformation();
+                }, function(error) 
+                {
+                    console.log('Signout Failed');
+                });
+            }      
+            
+
+            function changeUserName(user){
+                name = document.getElementById('username').value;
+                user.updateProfile({displayName: name});
+                console.log("Updated Name:" + user.displayName);
+                displayInformation(user);
+            }
+
+            function displayInformation(user){
+
+                var name = user.displayName;
+                var email = user.email;
+                var emailVerified = user.emailVerified;
+                
+
+
+                document.getElementById('pfp').src = user.photoURL
+                document.getElementById('name').innerText = name;
+                document.getElementById('email').innerText = email;
+
+            }
+
+            function hideInformation(){
+                document.getElementById('userSettings').style.display = "none"
+                document.getElementById('pfp').src = "white.png";
+                document.getElementById('name').innerText = ""; //Lines are meant so info cannot be viewed in inspect element
+                document.getElementById('email').innerText = "";
+            }
+
+            function pushToDatabase(user){
+                var database = firebase.database();
+                var ref = database.ref('userInformation');
+                
+                data = {
+                    // username: user.displayName,
+                    email: user.email,
+                }
+                ref.child(hashCode(user.email)).set(data); // Hash email
+                console.log("Pushed - Data:" + data);
+
+            }
+
+
+            function hashCode(str) {  //https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
+                var hash = 0, i, chr;
+                for (i = 0; i < str.length; i++) {
+                    chr   = str.charCodeAt(i);
+                    hash  = ((hash << 5) - hash) + chr;
+                    hash |= 0; // Convert to 32bit integer
+                }
+                return hash;
+            }
+
+        
+       
+            function getSinglePost(postId) 
+        {
+
+
+            var database = firebase.database();
+
+            var ref = database.ref('posts/'+postId);
+
+            ref.once('value', gotData, errData) 
+
+        } 
+
+        function gotData(data)
+        {
+
+            
+            //Gets Value Of Data
+            data = (data.val())
+            // addSection(data.title, data.text);
+            // console.log(keys);
+            // console.log(postData[0]);
+
+            // // iterate through the unique object id's and grab data fields: 'name', 'subject', 'mark'
+            // data = []
+            // title = {}
+            // text = {}
+            // for (var i = 0; i < keys.length; i++){
+            //   var k = keys[i];
+            //   name = postData[k].name;
+            //   subject = postData[k].subject;
+     
+            //   value = {"First Name":name,"Subject":subject,"Mark":mark}
+            //   data.push(value)
+              
+            //   }
+
+            //   console.log(data)
+
+        }
+
+        function errData(err)
+        {
+            console.log('Error!')
+            console.log(err)
+        }
+
+
+        
+        function addSection(title, text, poster){
+
+
+
+
+
+            var divider = document.createElement("div");
+            divider.className = "divider";
+
+            var section = document.createElement("div");
+            section.className = "section";
+
+            var h5 = document.createElement("H5");
+
+            var hText = document.createTextNode(title); 
+
+            h5.appendChild(hText);
+            
+            var h6 = document.createElement("H6");
+            var h6Text = document.createTextNode(text); 
+
+            var Ltext = document.createTextNode("label");
+            var text = document.createTextNode(poster);
+
+
+            
+            h6.appendChild(h6Text);
+
+            section.appendChild(h5);
+            section.appendChild(h6);
+            section.appendChild(text);
+
+
+            var element = document.getElementById("readPostSection");
+            element.appendChild(divider);
+            element.appendChild(section);
+        }
+
+
+        function post(){
+            var text = document.getElementById("postTextbox").value;
+            var title = document.getElementById("postTitlebox").value;
+            try {
+            var poster = firebase.auth().currentUser.displayName;
+            }catch(err){
+                poster = "Anonymous";
+            }
+
+            if (text.length == 0){
+                return
+            }
+            if (title.length == 0){
+                return
+            }
+
+
+        
+
+        var database = firebase.database();
+        var ref = database.ref('posts');
+        var data = 
+        {
+        title: title,
+        text: text,
+        poster : poster,
+        }
+        var newPostKey = ref.push().key;
+        // postId = new date().getTime();
+        ref.child(newPostKey).set(data);
+
+        document.getElementById('postTextbox').value = "";
+        document.getElementById('postTitlebox').value = "";
+        title = "";
+        text = "";
+        initPosts()
+    }
+
+    function initPosts(){
+        var readPostSection = document.getElementById('readPostSection');
+        readPostSection.innerHTML = "";
+
+        var database = firebase.database();
+        var ref = database.ref('posts');
+        ref.once('value', loadPosts);
+    }
+    function loadPosts(data){
+        data = (data.val());
+        keyValues = Object.keys(data).reverse();
+        n = Math.min(keyValues.length, 10);
+        for (var i = 0; i < n; i++){
+            c = data[keyValues[i]]
+            addSection(c.title, c.text, c.poster)
+        }
+    }
+
+
+    function turnOnPostSection() {
+        document.getElementById("postSection").style.display = "block";
+    }
+
+    function turnOffPostSection() {
+        document.getElementById("postSection").style.display = "none";
+    }
+    function turnOffProfileSection() {
+        document.getElementById("userSettings").style.display = "none";
+    }
+    initPosts()
+    console.log("Hello, this is my website. This website is a formum where people can discuss animals in constumes. I think that the world needs something like this. People can also talk about other things too. Have a nice day!")
+        </script>
+    </body>
+</html>

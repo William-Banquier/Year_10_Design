@@ -87,7 +87,7 @@ inputText.config(bg = 'systemTransparent', foreground="white")
 inputLocation = Text(root, height=1, width=28)
 inputLocation.grid(column = 0, row = 3, columnspan = 2)
 inputLocation.config(foreground="White")
-#Having background systemTranspartent breaks the program
+#Having background systemTransparent breaks the program
 inputLocation.config(bg = '#BBBBBB')
 
 

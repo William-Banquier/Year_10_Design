@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>String Handling</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+        <style>
+
+            div{
+                font-family: 'Roboto', sans-serif;
+                font-size: xx-large;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="string1"></div>
+        <div id="string2"></div>
+        <div id="string3"></div>
+        <div id="string4"></div>
+        <div id="string5"></div>
+        <div id="string6"></div>
+        <div id="string7"></div>
+        <div id="string8"></div>
+        <div id="string9"></div>
+        <div id="string10"></div>
+        <div id="string11"></div>
+        <div id="string12"></div>
+        <div id="string13"></div>
+        
+        <script type="text/javascript">
+        
+        bigString = "Zaphod BEEblebrox stole the Heart of Gold to effectively joyride around the universe.  I guess that's what a two-headed president does!";
+        
+        littleString = "Upper Canada College";
+        workingString = "";
+        
+        
+        document.getElementById("string1").innerHTML = littleString.length;
+
+
+        for (var i = littleString.length - 1; i >= 0; i-=1){
+            workingString += littleString.charAt(i);
+        }
+
+        document.getElementById("string2").innerHTML = workingString;
+
+        document.getElementById("string3").innerHTML = bigString.toLowerCase().indexOf('e'); // Remember that .indexOf() is case sensitive
+        //                                                          ^--- This makes it case insensitive
+
+
+        
+        </script>
+    </body>
+</html>
