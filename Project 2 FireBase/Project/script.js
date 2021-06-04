@@ -5,7 +5,7 @@ var provider = new firebase.auth.GoogleAuthProvider();
 
 var config = 
 {
-    apiKey: "",
+    apiKey: "AIzaSyAKW3G4dMbBiqXTXLoJDV4Xg_Y9lR_7Ku0",
     authDomain: "class-demo-y102020-21.firebaseapp.com",
     databaseURL: "https://class-demo-y102020-21-default-rtdb.firebaseio.com",
     projectId: "class-demo-y102020-21",
@@ -232,9 +232,9 @@ function joinRoom(room_id){
     
 // }
 
-(function loadNewMessages (){
-    downloadPosts(roomID);
+// (function loadNewMessages (){
+//     downloadPosts(roomID);
 
-    setTimeout(arguments.callee, 10000);
-})();
+//     setTimeout(arguments.callee, 10000);
+// })();
 
